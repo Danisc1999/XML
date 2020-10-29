@@ -1,0 +1,80 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+
+paquete  jaxp.stax;
+importar  java.io.FileNotFoundException;
+importar  java.io.FileReader;
+importar  java.util.ArrayList;
+importar  javax.xml.stream.FactoryConfigurationError;
+importar  javax.xml.stream.XMLInputFactory;
+importar  javax.xml.stream.XMLStreamException;
+importar  javax.xml.stream.XMLStreamReader;
+importar  javax.xml.stream.events.XMLEvent;
+
+class  StaxExample {
+
+     Cadena final estática  privada SALAR = " salario ";    
+     Cadena final estática  privada NAME = " nombre ";
+ 
+    public  static  < E >  void  main ( String [] args ) lanza  FileNotFoundException , XMLStreamException , FactoryConfigurationError {
+
+// Procedemos a crear nuestro flujo
+
+        XMLInputFactory xmlif =  XMLInputFactory . nueva instancia();
+
+// Abrimos XML e introducimos los nombres
+
+        XMLStreamReader xmlsr = xmlif . createXMLStreamReader (nuevo  FileReader ("C:\Users\cunef2\OneDrive - Colegio Universitario de Estudios Financieros (CUNEF)\UFV\Plan2018\3º Carrera\Desarrollo-IntegracionSoftware\empleados.xml"));
+
+        ArrayList < String > nombres =  new  ArrayList < String > ();
+
+        Etiqueta de cadena =  null ;
+        String nombre =  null ;
+        Cadena salario =  null ;
+
+        int eventType;
+        Sistema . fuera . println ( " Iniciando el documento " );
+
+// Accedemos a los campos del documento
+
+        while (xmlsr . hasNext ()) {
+
+// Eventos
+
+            eventType = xmlsr . siguiente();
+
+// Hacemos los case de cada uno de nuestros eventos
+
+            switch (eventType) {
+
+                caso  XMLEvent . START_ELEMENT :
+
+                    etiqueta = xmlsr . getLocalName ();
+
+                    si (etiqueta . es igual a (NAME)) {
+
+                        nombre = xmlsr . getElementText ();
+
+                    } más  si (etiqueta . es igual a (SALAR)) {
+
+                        salario = xmlsr . getElementText ();
+
+                        if (Integer . parseInt (salario) > =  30000)
+
+                            nombres . agregar (nombre);
+                    }
+
+                    romper;
+
+                caso  XMLEvent . END_DOCUMENT :
+
+                    Sistema . fuera . println ("END");
+
+                    romper;
+            }
+        }
+
+        Sistema . fuera . println ( "Empleados con salario mayor a 30000: " + nombres);
+    }
+}
